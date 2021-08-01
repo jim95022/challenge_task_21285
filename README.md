@@ -14,3 +14,4 @@ after:  On_my_home_world
 
 - требуется Python 3+ 
 - можно проверить с помощью команды `$ python main.py`.
+- `remove_spaces` нужна для решения задачи, `test_removed_spaces` для проверки ответа
