@@ -10,7 +10,7 @@ after:  On_my_home_world
 Что хочется увидеть:
 - Inplace алгоритм со сложность **O(N)** по времени и **O(1)** по памяти
 
- ##solution
+## solution
 
 - требуется Python 3+ 
 - можно проверить с помощью команды `$ python main.py`.
