@@ -13,9 +13,9 @@ def test_removed_spaces(row: str) -> str:
     """
     test function
     :param row:
-     str - row where spaces must be removed
+     str - row where unnecessary spaces must be removed
     :return:
-     str - row with removed spaces
+     str - row with removed unnecessary spaces
     """
     return '_'.join([word for word in row.split('_') if len(word) > 0])
 
