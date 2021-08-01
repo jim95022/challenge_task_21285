@@ -47,3 +47,5 @@ if __name__ == '__main__':
     assert remove_spaces(STRING_EXAMPLE5) == test_removed_spaces(STRING_EXAMPLE5)
     assert remove_spaces(STRING_EXAMPLE6) == test_removed_spaces(STRING_EXAMPLE6)
 
+    print('ok')
+
