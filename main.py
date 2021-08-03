@@ -1,12 +1,19 @@
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Test examples
-STRING_EXAMPLE = '_On__my___home_world_'
-STRING_EXAMPLE1 = ''
-STRING_EXAMPLE2 = '_'
-STRING_EXAMPLE3 = '_On__my___home_world_____'
-STRING_EXAMPLE4 = 'On_my_home_world'
-STRING_EXAMPLE5 = '_____'
-STRING_EXAMPLE6 = '____________On__my___home_world_'
+EXAMPLES = [
+    '_On__my___home_world_',
+    '',
+    '_',
+    '_On__my___home_world_____',
+    'On_my_home_world',
+    '_____',
+    '____________On__my___home_world_',
+]
 
 
 def test_removed_spaces(row: str) -> str:
@@ -21,31 +28,45 @@ def test_removed_spaces(row: str) -> str:
 
 
 def remove_spaces(row: str) -> str:
-
     was_gap = True
-    shifted_gaps = 0
+    index = 0
+    len_of_row = len(row)
 
-    for index in range(len(row)):
-        if row[index] == '_' and was_gap:
-            row = row[index] + row[:index] + row[index + 1:]
-            shifted_gaps += 1
+    while index < len_of_row:
 
-        was_gap = row[index] == '_'
+        if row[-1] == '_':
+            row = row[:-1]
+            len_of_row -= 1
 
-    if len(row) > 0 and row[-1] == '_':
-        row = row[:-1]
+        elif row[index] == '_' and was_gap:
+            row = row[:index] + row[index + 1:]
+            len_of_row -= 1
+            was_gap = True
 
-    return row[shifted_gaps:]
+        elif row[index] != '_':
+            index += 1
+            was_gap = False
+
+        else:
+            index += 1
+            was_gap = True
+
+    return row
+
+
+def check_answer(string_example: str) -> None:
+    logger.info(f"Input: \"{string_example}\"")
+
+    answer = remove_spaces(string_example)
+    row_with_removed_spaces = test_removed_spaces(string_example)
+
+    try:
+        assert row_with_removed_spaces == answer
+        logger.info(f"Output: \"{answer}\"")
+    except AssertionError:
+        logger.error(f"Failed: \"{row_with_removed_spaces}\" != \"{answer}\"")
 
 
 if __name__ == '__main__':
-    assert remove_spaces(STRING_EXAMPLE) == test_removed_spaces(STRING_EXAMPLE)
-    assert remove_spaces(STRING_EXAMPLE1) == test_removed_spaces(STRING_EXAMPLE1)
-    assert remove_spaces(STRING_EXAMPLE2) == test_removed_spaces(STRING_EXAMPLE2)
-    assert remove_spaces(STRING_EXAMPLE3) == test_removed_spaces(STRING_EXAMPLE3)
-    assert remove_spaces(STRING_EXAMPLE4) == test_removed_spaces(STRING_EXAMPLE4)
-    assert remove_spaces(STRING_EXAMPLE5) == test_removed_spaces(STRING_EXAMPLE5)
-    assert remove_spaces(STRING_EXAMPLE6) == test_removed_spaces(STRING_EXAMPLE6)
-
-    print('ok')
-
+    for example in EXAMPLES:
+        check_answer(example)
